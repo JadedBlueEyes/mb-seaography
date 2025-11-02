@@ -2,63 +2,20 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "medium_attribute")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "medium",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub medium: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "medium_attribute_type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub medium_attribute_type: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "medium_attribute_type_allowed_value",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub medium_attribute_type_allowed_value: Option<i32>,
     #[sea_orm(column_type = "Text", nullable)]
     pub medium_attribute_text: Option<String>,
-    #[sea_orm(
-        belongs_to,
-        from = "medium",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub medium: HasOne<super::medium::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "medium_attribute_type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub medium_attribute_type: HasOne<super::medium_attribute_type::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "medium_attribute_type_allowed_value",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub medium_attribute_type_allowed_value:
-        HasOne<super::medium_attribute_type_allowed_value::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

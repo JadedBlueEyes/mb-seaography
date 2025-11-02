@@ -35,8 +35,8 @@ pub mod artist_ipi;
 pub mod artist_isni;
 pub mod artist_meta;
 pub mod artist_rating_raw;
-pub mod artist_release_group_pending_update;
-pub mod artist_release_pending_update;
+// pub mod artist_release_group_pending_update; // No primary key
+// pub mod artist_release_pending_update; // No primary key
 pub mod artist_tag;
 pub mod artist_tag_raw;
 pub mod artist_type;
@@ -271,7 +271,7 @@ pub mod mood;
 pub mod mood_alias;
 pub mod mood_alias_type;
 pub mod mood_annotation;
-pub mod old_editor_name;
+// pub mod old_editor_name; // No primary key
 pub mod orderable_link_type;
 pub mod place;
 pub mod place_alias;
@@ -369,7 +369,7 @@ pub mod work_tag;
 pub mod work_tag_raw;
 pub mod work_type;
 
-seaography::register_entity_modules!([
+/*seaography::register_entity_modules!([
     alternative_medium,
     alternative_medium_track,
     alternative_release,
@@ -735,11 +735,11 @@ seaography::register_entity_modules!([
     work_tag,
     work_tag_raw,
     work_type,
-]);
-seaography::register_active_enums!([
+]);*/
+/*seaography::register_active_enums!([
     sea_orm_active_enums::CoverArtPresence,
     sea_orm_active_enums::EditNoteStatus,
     sea_orm_active_enums::EventArtPresence,
     sea_orm_active_enums::Fluency,
     sea_orm_active_enums::OauthCodeChallengeMethod,
-]);
+]);*/

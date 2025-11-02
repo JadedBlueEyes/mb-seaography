@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "release")]
 pub struct Model {
@@ -11,147 +10,21 @@ pub struct Model {
     #[sea_orm(unique)]
     pub gid: Uuid,
     pub name: String,
-    #[sea_orm(
-        belongs_to,
-        from = "artist_credit",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub artist_credit: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "release_group",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub release_group: i32,
     pub status: Option<i32>,
     pub packaging: Option<i32>,
-    #[sea_orm(
-        belongs_to,
-        from = "language",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub language: Option<i32>,
-    #[sea_orm(
-        belongs_to,
-        from = "script",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub script: Option<i32>,
     pub barcode: Option<String>,
     pub comment: String,
     pub edits_pending: i32,
     pub quality: i16,
     pub last_updated: Option<DateTimeWithTimeZone>,
-    #[sea_orm(has_many)]
-    pub alternative_releases: HasMany<super::alternative_release::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "artist_credit",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub artist_credit: HasOne<super::artist_credit::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_releases: HasMany<super::l_area_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_releases: HasMany<super::l_artist_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_releases: HasMany<super::l_event_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_genre_releases: HasMany<super::l_genre_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_releases: HasMany<super::l_instrument_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_releases: HasMany<super::l_label_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_releases: HasMany<super::l_mood_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_place_releases: HasMany<super::l_place_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_recording_releases: HasMany<super::l_recording_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_release_groups: HasMany<super::l_release_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_series: HasMany<super::l_release_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_urls: HasMany<super::l_release_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_works: HasMany<super::l_release_work::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "language",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub language: HasOne<super::language::Entity>,
-    #[sea_orm(has_many)]
-    pub mediums: HasMany<super::medium::Entity>,
-    #[sea_orm(has_many)]
-    pub release_aliases: HasMany<super::release_alias::Entity>,
-    #[sea_orm(has_many)]
-    pub release_attributes: HasMany<super::release_attribute::Entity>,
-    #[sea_orm(has_many)]
-    pub release_gid_redirects: HasMany<super::release_gid_redirect::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "release_group",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub release_group: HasOne<super::release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub release_labels: HasMany<super::release_label::Entity>,
-    #[sea_orm(has_one)]
-    pub release_meta: HasOne<super::release_meta::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "packaging",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub release_packaging: HasOne<super::release_packaging::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "status",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub release_status: HasOne<super::release_status::Entity>,
-    #[sea_orm(has_many)]
-    pub release_tag_raws: HasMany<super::release_tag_raw::Entity>,
-    #[sea_orm(has_one)]
-    pub release_unknown_country: HasOne<super::release_unknown_country::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "script",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub script: HasOne<super::script::Entity>,
-    #[sea_orm(has_many, via = "release_annotation")]
-    pub annotations: HasMany<super::annotation::Entity>,
-    #[sea_orm(has_many, via = "release_country")]
-    pub country_areas: HasMany<super::country_area::Entity>,
-    #[sea_orm(has_many, via = "edit_release")]
-    pub edits: HasMany<super::edit::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_release")]
-    pub editor_collections: HasMany<super::editor_collection::Entity>,
-    #[sea_orm(has_many, via = "release_tag")]
-    pub tags: HasMany<super::tag::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

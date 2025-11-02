@@ -1,380 +1,250 @@
-use crate::entities::*;
-use async_graphql::dynamic::*;
-use sea_orm::DatabaseConnection;
-use seaography::{async_graphql, lazy_static, Builder, BuilderContext};
-
-lazy_static::lazy_static! { static ref CONTEXT : BuilderContext = BuilderContext :: default () ; }
+use async_graphql::dynamic::{Field, FieldFuture, FieldValue, Object, Schema, SchemaError, TypeRef};
+use sea_orm::{DatabaseConnection, EntityTrait, PaginatorTrait, QueryOrder, QuerySelect};
+use entity::prelude::*;
 
 pub fn schema(
     database: DatabaseConnection,
     depth: Option<usize>,
     complexity: Option<usize>,
 ) -> Result<Schema, SchemaError> {
-    schema_builder(&CONTEXT, database, depth, complexity).finish()
-}
+    // Define Artist type
+    let artist_type = Object::new("Artist")
+        .field(Field::new("id", TypeRef::named_nn(TypeRef::INT), |ctx| {
+            FieldFuture::new(async move {
+                let artist = ctx.parent_value.try_downcast_ref::<entity::artist::Model>()?;
+                Ok(Some(FieldValue::value(artist.id)))
+            })
+        }))
+        .field(Field::new("gid", TypeRef::named_nn(TypeRef::STRING), |ctx| {
+            FieldFuture::new(async move {
+                let artist = ctx.parent_value.try_downcast_ref::<entity::artist::Model>()?;
+                Ok(Some(FieldValue::value(artist.gid.to_string())))
+            })
+        }))
+        .field(Field::new("name", TypeRef::named_nn(TypeRef::STRING), |ctx| {
+            FieldFuture::new(async move {
+                let artist = ctx.parent_value.try_downcast_ref::<entity::artist::Model>()?;
+                Ok(Some(FieldValue::value(artist.name.clone())))
+            })
+        }))
+        .field(Field::new("sort_name", TypeRef::named_nn(TypeRef::STRING), |ctx| {
+            FieldFuture::new(async move {
+                let artist = ctx.parent_value.try_downcast_ref::<entity::artist::Model>()?;
+                Ok(Some(FieldValue::value(artist.sort_name.clone())))
+            })
+        }))
+        .field(Field::new("comment", TypeRef::named_nn(TypeRef::STRING), |ctx| {
+            FieldFuture::new(async move {
+                let artist = ctx.parent_value.try_downcast_ref::<entity::artist::Model>()?;
+                Ok(Some(FieldValue::value(artist.comment.clone())))
+            })
+        }))
+        .field(Field::new("type", TypeRef::named(TypeRef::INT), |ctx| {
+            FieldFuture::new(async move {
+                let artist = ctx.parent_value.try_downcast_ref::<entity::artist::Model>()?;
+                Ok(artist.r#type.map(FieldValue::value))
+            })
+        }))
+        .field(Field::new("area", TypeRef::named(TypeRef::INT), |ctx| {
+            FieldFuture::new(async move {
+                let artist = ctx.parent_value.try_downcast_ref::<entity::artist::Model>()?;
+                Ok(artist.area.map(FieldValue::value))
+            })
+        }))
+        .field(Field::new("gender", TypeRef::named(TypeRef::INT), |ctx| {
+            FieldFuture::new(async move {
+                let artist = ctx.parent_value.try_downcast_ref::<entity::artist::Model>()?;
+                Ok(artist.gender.map(FieldValue::value))
+            })
+        }))
+        .field(Field::new("begin_date_year", TypeRef::named(TypeRef::INT), |ctx| {
+            FieldFuture::new(async move {
+                let artist = ctx.parent_value.try_downcast_ref::<entity::artist::Model>()?;
+                Ok(artist.begin_date_year.map(|y| FieldValue::value(y as i32)))
+            })
+        }))
+        .field(Field::new("end_date_year", TypeRef::named(TypeRef::INT), |ctx| {
+            FieldFuture::new(async move {
+                let artist = ctx.parent_value.try_downcast_ref::<entity::artist::Model>()?;
+                Ok(artist.end_date_year.map(|y| FieldValue::value(y as i32)))
+            })
+        }))
+        .field(Field::new("ended", TypeRef::named_nn(TypeRef::BOOLEAN), |ctx| {
+            FieldFuture::new(async move {
+                let artist = ctx.parent_value.try_downcast_ref::<entity::artist::Model>()?;
+                Ok(Some(FieldValue::value(artist.ended)))
+            })
+        }));
 
-pub fn schema_builder(
-    context: &'static BuilderContext,
-    database: DatabaseConnection,
-    depth: Option<usize>,
-    complexity: Option<usize>,
-) -> SchemaBuilder {
-    let mut builder = Builder::new(&context, database.clone());
-    seaography::register_entities!(
-        builder,
-        [
-            alternative_medium,
-            alternative_medium_track,
-            alternative_release,
-            alternative_release_type,
-            alternative_track,
-            annotation,
-            area,
-            area_alias,
-            area_alias_type,
-            area_annotation,
-            area_attribute,
-            area_attribute_type,
-            area_attribute_type_allowed_value,
-            area_gid_redirect,
-            area_tag,
-            area_tag_raw,
-            area_type,
-            artist,
-            artist_alias,
-            artist_alias_type,
-            artist_annotation,
-            artist_attribute,
-            artist_attribute_type,
-            artist_attribute_type_allowed_value,
-            artist_credit,
-            artist_credit_gid_redirect,
-            artist_credit_name,
-            artist_gid_redirect,
-            artist_ipi,
-            artist_isni,
-            artist_meta,
-            artist_rating_raw,
-            artist_release_group_pending_update,
-            artist_release_pending_update,
-            artist_tag,
-            artist_tag_raw,
-            artist_type,
-            cdtoc,
-            cdtoc_raw,
-            country_area,
-            deleted_entity,
-            edit,
-            edit_area,
-            edit_artist,
-            edit_data,
-            edit_event,
-            edit_genre,
-            edit_instrument,
-            edit_label,
-            edit_mood,
-            edit_note,
-            edit_note_recipient,
-            edit_place,
-            edit_recording,
-            edit_release,
-            edit_release_group,
-            edit_series,
-            edit_url,
-            edit_work,
-            editor_collection_area,
-            editor_collection_artist,
-            editor_collection_collaborator,
-            editor_collection_deleted_entity,
-            editor_collection_event,
-            editor_collection_genre,
-            editor_collection_gid_redirect,
-            editor_collection_instrument,
-            editor_collection_label,
-            editor_collection_place,
-            editor_collection_recording,
-            editor_collection_release_group,
-            editor_collection_series,
-            editor_collection_type,
-            editor_collection_work,
-            event,
-            event_alias,
-            event_alias_type,
-            event_annotation,
-            event_attribute,
-            event_attribute_type,
-            event_attribute_type_allowed_value,
-            event_gid_redirect,
-            event_meta,
-            event_rating_raw,
-            event_tag,
-            event_tag_raw,
-            event_type,
-            gender,
-            genre,
-            genre_alias,
-            genre_alias_type,
-            genre_annotation,
-            instrument,
-            instrument_alias,
-            instrument_alias_type,
-            instrument_annotation,
-            instrument_attribute,
-            instrument_attribute_type,
-            instrument_attribute_type_allowed_value,
-            instrument_gid_redirect,
-            instrument_tag,
-            instrument_tag_raw,
-            instrument_type,
-            iso_3166_1,
-            iso_3166_2,
-            iso_3166_3,
-            isrc,
-            iswc,
-            l_area_area,
-            l_area_artist,
-            l_area_event,
-            l_area_genre,
-            l_area_instrument,
-            l_area_label,
-            l_area_mood,
-            l_area_place,
-            l_area_recording,
-            l_area_release,
-            l_area_release_group,
-            l_area_series,
-            l_area_url,
-            l_area_work,
-            l_artist_artist,
-            l_artist_event,
-            l_artist_genre,
-            l_artist_instrument,
-            l_artist_label,
-            l_artist_mood,
-            l_artist_place,
-            l_artist_recording,
-            l_artist_release,
-            l_artist_release_group,
-            l_artist_series,
-            l_artist_url,
-            l_artist_work,
-            l_event_event,
-            l_event_genre,
-            l_event_instrument,
-            l_event_label,
-            l_event_mood,
-            l_event_place,
-            l_event_recording,
-            l_event_release,
-            l_event_release_group,
-            l_event_series,
-            l_event_url,
-            l_event_work,
-            l_genre_genre,
-            l_genre_instrument,
-            l_genre_label,
-            l_genre_mood,
-            l_genre_place,
-            l_genre_recording,
-            l_genre_release,
-            l_genre_release_group,
-            l_genre_series,
-            l_genre_url,
-            l_genre_work,
-            l_instrument_instrument,
-            l_instrument_label,
-            l_instrument_mood,
-            l_instrument_place,
-            l_instrument_recording,
-            l_instrument_release,
-            l_instrument_release_group,
-            l_instrument_series,
-            l_instrument_url,
-            l_instrument_work,
-            l_label_label,
-            l_label_mood,
-            l_label_place,
-            l_label_recording,
-            l_label_release,
-            l_label_release_group,
-            l_label_series,
-            l_label_url,
-            l_label_work,
-            l_mood_mood,
-            l_mood_place,
-            l_mood_recording,
-            l_mood_release,
-            l_mood_release_group,
-            l_mood_series,
-            l_mood_url,
-            l_mood_work,
-            l_place_place,
-            l_place_recording,
-            l_place_release,
-            l_place_release_group,
-            l_place_series,
-            l_place_url,
-            l_place_work,
-            l_recording_recording,
-            l_recording_release,
-            l_recording_release_group,
-            l_recording_series,
-            l_recording_url,
-            l_recording_work,
-            l_release_group_release_group,
-            l_release_group_series,
-            l_release_group_url,
-            l_release_group_work,
-            l_release_release,
-            l_release_release_group,
-            l_release_series,
-            l_release_url,
-            l_release_work,
-            l_series_series,
-            l_series_url,
-            l_series_work,
-            l_url_url,
-            l_url_work,
-            l_work_work,
-            label,
-            label_alias,
-            label_alias_type,
-            label_annotation,
-            label_attribute,
-            label_attribute_type,
-            label_attribute_type_allowed_value,
-            label_gid_redirect,
-            label_ipi,
-            label_isni,
-            label_meta,
-            label_rating_raw,
-            label_tag,
-            label_tag_raw,
-            label_type,
-            language,
-            link,
-            link_attribute,
-            link_attribute_credit,
-            link_attribute_text_value,
-            link_attribute_type,
-            link_creditable_attribute_type,
-            link_text_attribute_type,
-            link_type,
-            link_type_attribute_type,
-            medium,
-            medium_attribute,
-            medium_attribute_type,
-            medium_attribute_type_allowed_format,
-            medium_attribute_type_allowed_value,
-            medium_attribute_type_allowed_value_allowed_format,
-            medium_cdtoc,
-            medium_format,
-            medium_gid_redirect,
-            mood,
-            mood_alias,
-            mood_alias_type,
-            mood_annotation,
-            old_editor_name,
-            orderable_link_type,
-            place,
-            place_alias,
-            place_alias_type,
-            place_annotation,
-            place_attribute,
-            place_attribute_type,
-            place_attribute_type_allowed_value,
-            place_gid_redirect,
-            place_meta,
-            place_rating_raw,
-            place_tag,
-            place_tag_raw,
-            place_type,
-            recording,
-            recording_alias,
-            recording_alias_type,
-            recording_annotation,
-            recording_attribute,
-            recording_attribute_type,
-            recording_attribute_type_allowed_value,
-            recording_gid_redirect,
-            recording_meta,
-            recording_rating_raw,
-            recording_tag,
-            recording_tag_raw,
-            release,
-            release_alias,
-            release_alias_type,
-            release_annotation,
-            release_attribute,
-            release_attribute_type,
-            release_attribute_type_allowed_value,
-            release_country,
-            release_gid_redirect,
-            release_group,
-            release_group_alias,
-            release_group_alias_type,
-            release_group_annotation,
-            release_group_attribute,
-            release_group_attribute_type,
-            release_group_attribute_type_allowed_value,
-            release_group_gid_redirect,
-            release_group_meta,
-            release_group_primary_type,
-            release_group_rating_raw,
-            release_group_secondary_type,
-            release_group_secondary_type_join,
-            release_group_tag,
-            release_group_tag_raw,
-            release_label,
-            release_meta,
-            release_packaging,
-            release_raw,
-            release_status,
-            release_tag,
-            release_tag_raw,
-            release_unknown_country,
-            replication_control,
-            script,
-            series,
-            series_alias,
-            series_alias_type,
-            series_annotation,
-            series_attribute,
-            series_attribute_type,
-            series_attribute_type_allowed_value,
-            series_gid_redirect,
-            series_ordering_type,
-            series_tag,
-            series_tag_raw,
-            series_type,
-            tag,
-            tag_relation,
-            track,
-            track_gid_redirect,
-            track_raw,
-            url,
-            url_gid_redirect,
-            work,
-            work_alias,
-            work_alias_type,
-            work_annotation,
-            work_attribute,
-            work_attribute_type,
-            work_attribute_type_allowed_value,
-            work_gid_redirect,
-            work_language,
-            work_meta,
-            work_rating_raw,
-            work_tag,
-            work_tag_raw,
-            work_type,
-        ]
-    );
-    builder.register_enumeration::<crate::entities::sea_orm_active_enums::CoverArtPresence>();
-    builder.register_enumeration::<crate::entities::sea_orm_active_enums::EventArtPresence>();
-    builder
-        .set_depth_limit(depth)
-        .set_complexity_limit(complexity)
-        .schema_builder()
-        .data(database)
+    // Define Area type
+    let area_type = Object::new("Area")
+        .field(Field::new("id", TypeRef::named_nn(TypeRef::INT), |ctx| {
+            FieldFuture::new(async move {
+                let area = ctx.parent_value.try_downcast_ref::<entity::area::Model>()?;
+                Ok(Some(FieldValue::value(area.id)))
+            })
+        }))
+        .field(Field::new("gid", TypeRef::named_nn(TypeRef::STRING), |ctx| {
+            FieldFuture::new(async move {
+                let area = ctx.parent_value.try_downcast_ref::<entity::area::Model>()?;
+                Ok(Some(FieldValue::value(area.gid.to_string())))
+            })
+        }))
+        .field(Field::new("name", TypeRef::named_nn(TypeRef::STRING), |ctx| {
+            FieldFuture::new(async move {
+                let area = ctx.parent_value.try_downcast_ref::<entity::area::Model>()?;
+                Ok(Some(FieldValue::value(area.name.clone())))
+            })
+        }))
+        .field(Field::new("type", TypeRef::named(TypeRef::INT), |ctx| {
+            FieldFuture::new(async move {
+                let area = ctx.parent_value.try_downcast_ref::<entity::area::Model>()?;
+                Ok(area.r#type.map(FieldValue::value))
+            })
+        }));
+
+    // Define Query type
+    let query = Object::new("Query")
+        .field(Field::new(
+            "health",
+            TypeRef::named_nn(TypeRef::STRING),
+            |_ctx| {
+                FieldFuture::new(async move {
+                    Ok(Some(FieldValue::value("OK")))
+                })
+            },
+        ))
+        .field(Field::new(
+            "database_connected",
+            TypeRef::named_nn(TypeRef::BOOLEAN),
+            |ctx| {
+                FieldFuture::new(async move {
+                    let db = ctx.data::<DatabaseConnection>()?;
+                    match sea_orm::DatabaseConnection::ping(db).await {
+                        Ok(_) => Ok(Some(FieldValue::value(true))),
+                        Err(_) => Ok(Some(FieldValue::value(false))),
+                    }
+                })
+            },
+        ))
+        .field(Field::new(
+            "artist",
+            TypeRef::named("Artist"),
+            |ctx| {
+                FieldFuture::new(async move {
+                    let db = ctx.data::<DatabaseConnection>()?;
+                    let id = ctx.args.try_get("id")?.i64()? as i32;
+                    
+                    match Artist::find_by_id(id).one(db).await {
+                        Ok(Some(artist)) => Ok(Some(FieldValue::owned_any(artist))),
+                        Ok(None) => Ok(None),
+                        Err(e) => Err(format!("Database error: {}", e).into()),
+                    }
+                })
+            },
+        ).argument(async_graphql::dynamic::InputValue::new("id", TypeRef::named_nn(TypeRef::INT))))
+        .field(Field::new(
+            "artists",
+            TypeRef::named_nn_list_nn("Artist"),
+            |ctx| {
+                FieldFuture::new(async move {
+                    let db = ctx.data::<DatabaseConnection>()?;
+                    let limit = ctx.args.try_get("limit").ok().and_then(|v| v.u64().ok()).unwrap_or(10) as u64;
+                    let offset = ctx.args.try_get("offset").ok().and_then(|v| v.u64().ok()).unwrap_or(0) as u64;
+                    
+                    match Artist::find()
+                        .order_by_asc(entity::artist::Column::Id)
+                        .offset(offset)
+                        .limit(limit)
+                        .all(db)
+                        .await
+                    {
+                        Ok(artists) => {
+                            let values: Vec<FieldValue> = artists
+                                .into_iter()
+                                .map(FieldValue::owned_any)
+                                .collect();
+                            Ok(Some(FieldValue::list(values)))
+                        }
+                        Err(e) => Err(format!("Database error: {}", e).into()),
+                    }
+                })
+            },
+        )
+        .argument(async_graphql::dynamic::InputValue::new("limit", TypeRef::named(TypeRef::INT)))
+        .argument(async_graphql::dynamic::InputValue::new("offset", TypeRef::named(TypeRef::INT))))
+        .field(Field::new(
+            "artistCount",
+            TypeRef::named_nn(TypeRef::INT),
+            |ctx| {
+                FieldFuture::new(async move {
+                    let db = ctx.data::<DatabaseConnection>()?;
+                    match Artist::find().count(db).await {
+                        Ok(count) => Ok(Some(FieldValue::value(count as i32))),
+                        Err(e) => Err(format!("Database error: {}", e).into()),
+                    }
+                })
+            },
+        ))
+        .field(Field::new(
+            "area",
+            TypeRef::named("Area"),
+            |ctx| {
+                FieldFuture::new(async move {
+                    let db = ctx.data::<DatabaseConnection>()?;
+                    let id = ctx.args.try_get("id")?.i64()? as i32;
+                    
+                    match Area::find_by_id(id).one(db).await {
+                        Ok(Some(area)) => Ok(Some(FieldValue::owned_any(area))),
+                        Ok(None) => Ok(None),
+                        Err(e) => Err(format!("Database error: {}", e).into()),
+                    }
+                })
+            },
+        ).argument(async_graphql::dynamic::InputValue::new("id", TypeRef::named_nn(TypeRef::INT))))
+        .field(Field::new(
+            "areas",
+            TypeRef::named_nn_list_nn("Area"),
+            |ctx| {
+                FieldFuture::new(async move {
+                    let db = ctx.data::<DatabaseConnection>()?;
+                    let limit = ctx.args.try_get("limit").ok().and_then(|v| v.u64().ok()).unwrap_or(10) as u64;
+                    let offset = ctx.args.try_get("offset").ok().and_then(|v| v.u64().ok()).unwrap_or(0) as u64;
+                    
+                    match Area::find()
+                        .order_by_asc(entity::area::Column::Id)
+                        .offset(offset)
+                        .limit(limit)
+                        .all(db)
+                        .await
+                    {
+                        Ok(areas) => {
+                            let values: Vec<FieldValue> = areas
+                                .into_iter()
+                                .map(FieldValue::owned_any)
+                                .collect();
+                            Ok(Some(FieldValue::list(values)))
+                        }
+                        Err(e) => Err(format!("Database error: {}", e).into()),
+                    }
+                })
+            },
+        )
+        .argument(async_graphql::dynamic::InputValue::new("limit", TypeRef::named(TypeRef::INT)))
+        .argument(async_graphql::dynamic::InputValue::new("offset", TypeRef::named(TypeRef::INT))));
+
+    let mut schema_builder = Schema::build(query.type_name(), None, None)
+        .register(query)
+        .register(artist_type)
+        .register(area_type);
+
+    if let Some(depth) = depth {
+        schema_builder = schema_builder.limit_depth(depth);
+    }
+
+    if let Some(complexity) = complexity {
+        schema_builder = schema_builder.limit_complexity(complexity);
+    }
+
+    schema_builder.data(database).finish()
 }

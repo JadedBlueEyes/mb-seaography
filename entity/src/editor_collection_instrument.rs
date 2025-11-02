@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(
     schema_name = "musicbrainz",
@@ -11,36 +10,16 @@ use sea_orm::entity::prelude::*;
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub collection: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "instrument",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub instrument: i32,
     pub added: Option<DateTimeWithTimeZone>,
     pub position: i32,
     #[sea_orm(column_type = "Text")]
     pub comment: String,
-    #[sea_orm(
-        belongs_to,
-        from = "collection",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor_collection: HasOne<super::editor_collection::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "instrument",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub instrument: HasOne<super::instrument::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

@@ -2,42 +2,21 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(
     schema_name = "musicbrainz",
     table_name = "release_group_secondary_type_join"
 )]
 pub struct Model {
-    #[sea_orm(
-        belongs_to,
-        from = "release_group",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub release_group: i32,
     #[sea_orm(primary_key, auto_increment = false)]
     pub secondary_type: i32,
     pub created: DateTimeWithTimeZone,
-    #[sea_orm(
-        belongs_to,
-        from = "release_group",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub release_group: HasOne<super::release_group::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "secondary_type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub release_group_secondary_type: HasOne<super::release_group_secondary_type::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "track")]
 pub struct Model {
@@ -10,68 +9,22 @@ pub struct Model {
     pub id: i32,
     #[sea_orm(unique)]
     pub gid: Uuid,
-    #[sea_orm(
-        belongs_to,
-        from = "recording",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub recording: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "medium",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        unique_key = "track_uniq_medium_position"
-    )]
     pub medium: i32,
     #[sea_orm(unique_key = "track_uniq_medium_position")]
     pub position: i32,
     #[sea_orm(column_type = "Text")]
     pub number: String,
     pub name: String,
-    #[sea_orm(
-        belongs_to,
-        from = "artist_credit",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub artist_credit: i32,
     pub length: Option<i32>,
     pub edits_pending: i32,
     pub last_updated: Option<DateTimeWithTimeZone>,
     pub is_data_track: bool,
-    #[sea_orm(has_many)]
-    pub alternative_medium_tracks: HasMany<super::alternative_medium_track::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "artist_credit",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub artist_credit: HasOne<super::artist_credit::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "medium",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub medium: HasOne<super::medium::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "recording",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub recording: HasOne<super::recording::Entity>,
-    #[sea_orm(has_many)]
-    pub track_gid_redirects: HasMany<super::track_gid_redirect::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

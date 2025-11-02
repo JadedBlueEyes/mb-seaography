@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "unreferenced_row_log")]
 pub struct Model {
@@ -12,5 +11,9 @@ pub struct Model {
     pub row_id: i32,
     pub inserted: Option<DateTimeWithTimeZone>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

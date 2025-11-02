@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "instrument")]
 pub struct Model {
@@ -17,56 +16,10 @@ pub struct Model {
     pub comment: String,
     #[sea_orm(column_type = "Text")]
     pub description: String,
-    #[sea_orm(has_many)]
-    pub instrument_aliases: HasMany<super::instrument_alias::Entity>,
-    #[sea_orm(has_many)]
-    pub instrument_attributes: HasMany<super::instrument_attribute::Entity>,
-    #[sea_orm(has_many)]
-    pub instrument_gid_redirects: HasMany<super::instrument_gid_redirect::Entity>,
-    #[sea_orm(has_many)]
-    pub instrument_tag_raws: HasMany<super::instrument_tag_raw::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub instrument_type: HasOne<super::instrument_type::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_instruments: HasMany<super::l_area_instrument::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_instruments: HasMany<super::l_artist_instrument::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_instruments: HasMany<super::l_event_instrument::Entity>,
-    #[sea_orm(has_many)]
-    pub l_genre_instruments: HasMany<super::l_genre_instrument::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_labels: HasMany<super::l_instrument_label::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_moods: HasMany<super::l_instrument_mood::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_places: HasMany<super::l_instrument_place::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_recordings: HasMany<super::l_instrument_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_releases: HasMany<super::l_instrument_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_release_groups: HasMany<super::l_instrument_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_series: HasMany<super::l_instrument_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_urls: HasMany<super::l_instrument_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_works: HasMany<super::l_instrument_work::Entity>,
-    #[sea_orm(has_many, via = "instrument_annotation")]
-    pub annotations: HasMany<super::annotation::Entity>,
-    #[sea_orm(has_many, via = "edit_instrument")]
-    pub edits: HasMany<super::edit::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_instrument")]
-    pub editor_collections: HasMany<super::editor_collection::Entity>,
-    #[sea_orm(has_many, via = "instrument_tag")]
-    pub tags: HasMany<super::tag::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

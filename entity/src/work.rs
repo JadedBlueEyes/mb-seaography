@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "work")]
 pub struct Model {
@@ -15,64 +14,10 @@ pub struct Model {
     pub comment: String,
     pub edits_pending: i32,
     pub last_updated: Option<DateTimeWithTimeZone>,
-    #[sea_orm(has_many)]
-    pub iswcs: HasMany<super::iswc::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_works: HasMany<super::l_area_work::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_works: HasMany<super::l_artist_work::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_works: HasMany<super::l_event_work::Entity>,
-    #[sea_orm(has_many)]
-    pub l_genre_works: HasMany<super::l_genre_work::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_works: HasMany<super::l_instrument_work::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_works: HasMany<super::l_label_work::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_works: HasMany<super::l_mood_work::Entity>,
-    #[sea_orm(has_many)]
-    pub l_place_works: HasMany<super::l_place_work::Entity>,
-    #[sea_orm(has_many)]
-    pub l_recording_works: HasMany<super::l_recording_work::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_group_works: HasMany<super::l_release_group_work::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_works: HasMany<super::l_release_work::Entity>,
-    #[sea_orm(has_many)]
-    pub l_series_works: HasMany<super::l_series_work::Entity>,
-    #[sea_orm(has_many)]
-    pub l_url_works: HasMany<super::l_url_work::Entity>,
-    #[sea_orm(has_many)]
-    pub work_aliases: HasMany<super::work_alias::Entity>,
-    #[sea_orm(has_many)]
-    pub work_attributes: HasMany<super::work_attribute::Entity>,
-    #[sea_orm(has_many)]
-    pub work_gid_redirects: HasMany<super::work_gid_redirect::Entity>,
-    #[sea_orm(has_one)]
-    pub work_meta: HasOne<super::work_meta::Entity>,
-    #[sea_orm(has_many)]
-    pub work_tag_raws: HasMany<super::work_tag_raw::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub work_type: HasOne<super::work_type::Entity>,
-    #[sea_orm(has_many, via = "work_annotation")]
-    pub annotations: HasMany<super::annotation::Entity>,
-    #[sea_orm(has_many, via = "edit_work")]
-    pub edits: HasMany<super::edit::Entity>,
-    #[sea_orm(has_many, via = "work_rating_raw")]
-    pub editors: HasMany<super::editor::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_work")]
-    pub editor_collections: HasMany<super::editor_collection::Entity>,
-    #[sea_orm(has_many, via = "work_language")]
-    pub languages: HasMany<super::language::Entity>,
-    #[sea_orm(has_many, via = "work_tag")]
-    pub tags: HasMany<super::tag::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

@@ -3,20 +3,12 @@
 use super::sea_orm_active_enums::EditNoteStatus;
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "edit_note_change")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
     pub status: Option<EditNoteStatus>,
-    #[sea_orm(
-        belongs_to,
-        from = "edit_note",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub edit_note: i32,
     pub change_editor: i32,
     pub change_time: Option<DateTimeWithTimeZone>,
@@ -26,22 +18,10 @@ pub struct Model {
     pub new_note: String,
     #[sea_orm(column_type = "Text")]
     pub reason: String,
-    #[sea_orm(
-        belongs_to,
-        from = "edit_note",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub edit_note: HasOne<super::edit_note::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "change_editor",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor: HasOne<super::editor::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

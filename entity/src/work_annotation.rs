@@ -2,46 +2,17 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "work_annotation")]
 pub struct Model {
-    #[sea_orm(
-        belongs_to,
-        from = "work",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub work: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "annotation",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub annotation: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "annotation",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub annotation: HasOne<super::annotation::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "work",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub work: HasOne<super::work::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

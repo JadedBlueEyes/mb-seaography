@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "tag")]
 pub struct Model {
@@ -11,50 +10,10 @@ pub struct Model {
     #[sea_orm(unique)]
     pub name: String,
     pub ref_count: i32,
-    #[sea_orm(has_many)]
-    pub area_tag_raws: HasMany<super::area_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub artist_tag_raws: HasMany<super::artist_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub event_tag_raws: HasMany<super::event_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub instrument_tag_raws: HasMany<super::instrument_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub label_tag_raws: HasMany<super::label_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub place_tag_raws: HasMany<super::place_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub recording_tag_raws: HasMany<super::recording_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub release_group_tag_raws: HasMany<super::release_group_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub release_tag_raws: HasMany<super::release_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub series_tag_raws: HasMany<super::series_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub work_tag_raws: HasMany<super::work_tag_raw::Entity>,
-    #[sea_orm(has_many, via = "area_tag")]
-    pub areas: HasMany<super::area::Entity>,
-    #[sea_orm(has_many, via = "artist_tag")]
-    pub artists: HasMany<super::artist::Entity>,
-    #[sea_orm(has_many, via = "event_tag")]
-    pub events: HasMany<super::event::Entity>,
-    #[sea_orm(has_many, via = "instrument_tag")]
-    pub instruments: HasMany<super::instrument::Entity>,
-    #[sea_orm(has_many, via = "label_tag")]
-    pub labels: HasMany<super::label::Entity>,
-    #[sea_orm(has_many, via = "place_tag")]
-    pub places: HasMany<super::place::Entity>,
-    #[sea_orm(has_many, via = "recording_tag")]
-    pub recordings: HasMany<super::recording::Entity>,
-    #[sea_orm(has_many, via = "release_tag")]
-    pub releases: HasMany<super::release::Entity>,
-    #[sea_orm(has_many, via = "release_group_tag")]
-    pub release_groups: HasMany<super::release_group::Entity>,
-    #[sea_orm(has_many, via = "series_tag")]
-    pub series: HasMany<super::series::Entity>,
-    #[sea_orm(has_many, via = "work_tag")]
-    pub works: HasMany<super::work::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

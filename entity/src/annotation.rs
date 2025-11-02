@@ -2,58 +2,20 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "annotation")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "editor",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub editor: i32,
     #[sea_orm(column_type = "Text", nullable)]
     pub text: Option<String>,
     pub changelog: Option<String>,
     pub created: Option<DateTimeWithTimeZone>,
-    #[sea_orm(
-        belongs_to,
-        from = "editor",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor: HasOne<super::editor::Entity>,
-    #[sea_orm(has_many, via = "area_annotation")]
-    pub areas: HasMany<super::area::Entity>,
-    #[sea_orm(has_many, via = "artist_annotation")]
-    pub artists: HasMany<super::artist::Entity>,
-    #[sea_orm(has_many, via = "event_annotation")]
-    pub events: HasMany<super::event::Entity>,
-    #[sea_orm(has_many, via = "genre_annotation")]
-    pub genres: HasMany<super::genre::Entity>,
-    #[sea_orm(has_many, via = "instrument_annotation")]
-    pub instruments: HasMany<super::instrument::Entity>,
-    #[sea_orm(has_many, via = "label_annotation")]
-    pub labels: HasMany<super::label::Entity>,
-    #[sea_orm(has_many, via = "mood_annotation")]
-    pub moods: HasMany<super::mood::Entity>,
-    #[sea_orm(has_many, via = "place_annotation")]
-    pub places: HasMany<super::place::Entity>,
-    #[sea_orm(has_many, via = "recording_annotation")]
-    pub recordings: HasMany<super::recording::Entity>,
-    #[sea_orm(has_many, via = "release_annotation")]
-    pub releases: HasMany<super::release::Entity>,
-    #[sea_orm(has_many, via = "release_group_annotation")]
-    pub release_groups: HasMany<super::release_group::Entity>,
-    #[sea_orm(has_many, via = "series_annotation")]
-    pub series: HasMany<super::series::Entity>,
-    #[sea_orm(has_many, via = "work_annotation")]
-    pub works: HasMany<super::work::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

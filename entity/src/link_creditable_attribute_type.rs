@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(
     schema_name = "musicbrainz",
@@ -11,16 +10,10 @@ use sea_orm::entity::prelude::*;
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub attribute_type: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "attribute_type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "Cascade"
-    )]
-    pub link_attribute_type: HasOne<super::link_attribute_type::Entity>,
-    #[sea_orm(has_many, via = "link_attribute_credit")]
-    pub links: HasMany<super::link::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

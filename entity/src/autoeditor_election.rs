@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "autoeditor_election")]
 pub struct Model {
@@ -18,44 +17,10 @@ pub struct Model {
     pub propose_time: DateTimeWithTimeZone,
     pub open_time: Option<DateTimeWithTimeZone>,
     pub close_time: Option<DateTimeWithTimeZone>,
-    #[sea_orm(has_many)]
-    pub autoeditor_election_votes: HasMany<super::autoeditor_election_vote::Entity>,
-    #[sea_orm(
-        belongs_to,
-        relation_enum = "Editor4",
-        from = "candidate",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor_4: HasOne<super::editor::Entity>,
-    #[sea_orm(
-        belongs_to,
-        relation_enum = "Editor3",
-        from = "proposer",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor_3: HasOne<super::editor::Entity>,
-    #[sea_orm(
-        belongs_to,
-        relation_enum = "Editor2",
-        from = "seconder1",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor_2: HasOne<super::editor::Entity>,
-    #[sea_orm(
-        belongs_to,
-        relation_enum = "Editor1",
-        from = "seconder2",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor_1: HasOne<super::editor::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

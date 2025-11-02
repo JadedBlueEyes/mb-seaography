@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "editor")]
 pub struct Model {
@@ -19,113 +18,15 @@ pub struct Model {
     pub last_login_date: Option<DateTimeWithTimeZone>,
     pub last_updated: Option<DateTimeWithTimeZone>,
     pub birth_date: Option<Date>,
-    #[sea_orm(
-        belongs_to,
-        from = "gender",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub gender: Option<i32>,
-    #[sea_orm(
-        belongs_to,
-        from = "area",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub area: Option<i32>,
     pub password: String,
     pub ha1: String,
     pub deleted: bool,
-    #[sea_orm(has_many)]
-    pub annotations: HasMany<super::annotation::Entity>,
-    #[sea_orm(has_many)]
-    pub applications: HasMany<super::application::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "area",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub area: HasOne<super::area::Entity>,
-    #[sea_orm(has_many)]
-    pub area_tag_raws: HasMany<super::area_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub artist_tag_raws: HasMany<super::artist_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub autoeditor_election_votes: HasMany<super::autoeditor_election_vote::Entity>,
-    #[sea_orm(has_many)]
-    pub edits: HasMany<super::edit::Entity>,
-    #[sea_orm(has_many)]
-    pub edit_note_changes: HasMany<super::edit_note_change::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_oauth_tokens: HasMany<super::editor_oauth_token::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_preferences: HasMany<super::editor_preference::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_artists: HasMany<super::editor_subscribe_artist::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_artist_deleteds: HasMany<super::editor_subscribe_artist_deleted::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_collections: HasMany<super::editor_subscribe_collection::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_labels: HasMany<super::editor_subscribe_label::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_label_deleteds: HasMany<super::editor_subscribe_label_deleted::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_series: HasMany<super::editor_subscribe_series::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_series_deleteds: HasMany<super::editor_subscribe_series_deleted::Entity>,
-    #[sea_orm(has_many)]
-    pub event_tag_raws: HasMany<super::event_tag_raw::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "gender",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub gender: HasOne<super::gender::Entity>,
-    #[sea_orm(has_many)]
-    pub instrument_tag_raws: HasMany<super::instrument_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub label_tag_raws: HasMany<super::label_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub place_tag_raws: HasMany<super::place_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub recording_tag_raws: HasMany<super::recording_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub release_group_tag_raws: HasMany<super::release_group_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub release_tag_raws: HasMany<super::release_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub series_tag_raws: HasMany<super::series_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub votes: HasMany<super::vote::Entity>,
-    #[sea_orm(has_many)]
-    pub work_tag_raws: HasMany<super::work_tag_raw::Entity>,
-    #[sea_orm(has_many, via = "artist_rating_raw")]
-    pub artists: HasMany<super::artist::Entity>,
-    #[sea_orm(has_many, via = "edit_note_recipient")]
-    pub edit_notes: HasMany<super::edit_note::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_collaborator")]
-    pub editor_collections: HasMany<super::editor_collection::Entity>,
-    #[sea_orm(has_many, via = "event_rating_raw")]
-    pub events: HasMany<super::event::Entity>,
-    #[sea_orm(has_many, via = "label_rating_raw")]
-    pub labels: HasMany<super::label::Entity>,
-    #[sea_orm(has_many, via = "editor_language")]
-    pub languages: HasMany<super::language::Entity>,
-    #[sea_orm(has_many, via = "place_rating_raw")]
-    pub places: HasMany<super::place::Entity>,
-    #[sea_orm(has_many, via = "recording_rating_raw")]
-    pub recordings: HasMany<super::recording::Entity>,
-    #[sea_orm(has_many, via = "release_group_rating_raw")]
-    pub release_groups: HasMany<super::release_group::Entity>,
-    #[sea_orm(has_many, via = "work_rating_raw")]
-    pub works: HasMany<super::work::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

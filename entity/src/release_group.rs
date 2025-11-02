@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "release_group")]
 pub struct Model {
@@ -11,84 +10,15 @@ pub struct Model {
     #[sea_orm(unique)]
     pub gid: Uuid,
     pub name: String,
-    #[sea_orm(
-        belongs_to,
-        from = "artist_credit",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub artist_credit: i32,
     pub r#type: Option<i32>,
     pub comment: String,
     pub edits_pending: i32,
     pub last_updated: Option<DateTimeWithTimeZone>,
-    #[sea_orm(
-        belongs_to,
-        from = "artist_credit",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub artist_credit: HasOne<super::artist_credit::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_release_groups: HasMany<super::l_area_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_release_groups: HasMany<super::l_artist_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_release_groups: HasMany<super::l_event_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_genre_release_groups: HasMany<super::l_genre_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_release_groups: HasMany<super::l_instrument_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_release_groups: HasMany<super::l_label_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_release_groups: HasMany<super::l_mood_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_place_release_groups: HasMany<super::l_place_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_recording_release_groups: HasMany<super::l_recording_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_group_series: HasMany<super::l_release_group_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_group_urls: HasMany<super::l_release_group_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_group_works: HasMany<super::l_release_group_work::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_release_groups: HasMany<super::l_release_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub releases: HasMany<super::release::Entity>,
-    #[sea_orm(has_many)]
-    pub release_group_aliases: HasMany<super::release_group_alias::Entity>,
-    #[sea_orm(has_many)]
-    pub release_group_attributes: HasMany<super::release_group_attribute::Entity>,
-    #[sea_orm(has_many)]
-    pub release_group_gid_redirects: HasMany<super::release_group_gid_redirect::Entity>,
-    #[sea_orm(has_one)]
-    pub release_group_meta: HasOne<super::release_group_meta::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub release_group_primary_type: HasOne<super::release_group_primary_type::Entity>,
-    #[sea_orm(has_many)]
-    pub release_group_tag_raws: HasMany<super::release_group_tag_raw::Entity>,
-    #[sea_orm(has_many, via = "release_group_annotation")]
-    pub annotations: HasMany<super::annotation::Entity>,
-    #[sea_orm(has_many, via = "edit_release_group")]
-    pub edits: HasMany<super::edit::Entity>,
-    #[sea_orm(has_many, via = "release_group_rating_raw")]
-    pub editors: HasMany<super::editor::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_release_group")]
-    pub editor_collections: HasMany<super::editor_collection::Entity>,
-    #[sea_orm(has_many, via = "release_group_secondary_type_join")]
-    pub release_group_secondary_types: HasMany<super::release_group_secondary_type::Entity>,
-    #[sea_orm(has_many, via = "release_group_tag")]
-    pub tags: HasMany<super::tag::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

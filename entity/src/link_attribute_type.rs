@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "link_attribute_type")]
 pub struct Model {
@@ -17,32 +16,10 @@ pub struct Model {
     #[sea_orm(column_type = "Text", nullable)]
     pub description: Option<String>,
     pub last_updated: Option<DateTimeWithTimeZone>,
-    #[sea_orm(
-        self_ref,
-        relation_enum = "SelfRef2",
-        from = "parent",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub link_attribute_type_2: HasOne<Entity>,
-    #[sea_orm(
-        self_ref,
-        relation_enum = "SelfRef1",
-        from = "root",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub link_attribute_type_1: HasOne<Entity>,
-    #[sea_orm(has_one)]
-    pub link_creditable_attribute_type: HasOne<super::link_creditable_attribute_type::Entity>,
-    #[sea_orm(has_one)]
-    pub link_text_attribute_type: HasOne<super::link_text_attribute_type::Entity>,
-    #[sea_orm(has_many, via = "link_attribute")]
-    pub links: HasMany<super::link::Entity>,
-    #[sea_orm(has_many, via = "link_type_attribute_type")]
-    pub link_types: HasMany<super::link_type::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

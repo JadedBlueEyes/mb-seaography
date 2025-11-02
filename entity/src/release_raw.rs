@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "release_raw")]
 pub struct Model {
@@ -17,10 +16,10 @@ pub struct Model {
     pub source: Option<i32>,
     pub barcode: Option<String>,
     pub comment: String,
-    #[sea_orm(has_many)]
-    pub cdtoc_raws: HasMany<super::cdtoc_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub track_raws: HasMany<super::track_raw::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

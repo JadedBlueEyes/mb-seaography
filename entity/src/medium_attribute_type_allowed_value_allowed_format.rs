@@ -2,50 +2,20 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(
     schema_name = "musicbrainz",
     table_name = "medium_attribute_type_allowed_value_allowed_format"
 )]
 pub struct Model {
-    #[sea_orm(
-        belongs_to,
-        from = "medium_format",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub medium_format: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "medium_attribute_type_allowed_value",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub medium_attribute_type_allowed_value: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "medium_attribute_type_allowed_value",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub medium_attribute_type_allowed_value:
-        HasOne<super::medium_attribute_type_allowed_value::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "medium_format",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub medium_format: HasOne<super::medium_format::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

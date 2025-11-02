@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "series_attribute_type")]
 pub struct Model {
@@ -17,20 +16,10 @@ pub struct Model {
     pub description: Option<String>,
     #[sea_orm(unique)]
     pub gid: Uuid,
-    #[sea_orm(has_many)]
-    pub series_attributes: HasMany<super::series_attribute::Entity>,
-    #[sea_orm(
-        self_ref,
-        relation_enum = "SelfRef",
-        from = "parent",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub series_attribute_type: HasOne<Entity>,
-    #[sea_orm(has_many)]
-    pub series_attribute_type_allowed_values:
-        HasMany<super::series_attribute_type_allowed_value::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

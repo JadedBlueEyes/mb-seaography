@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "cdtoc_raw")]
 pub struct Model {
@@ -16,14 +15,10 @@ pub struct Model {
     pub leadout_offset: i32,
     #[sea_orm(unique_key = "cdtoc_raw_toc")]
     pub track_offset: Vec<i32>,
-    #[sea_orm(
-        belongs_to,
-        from = "release",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub release_raw: HasOne<super::release_raw::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

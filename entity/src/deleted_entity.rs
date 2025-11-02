@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "deleted_entity")]
 pub struct Model {
@@ -11,14 +10,10 @@ pub struct Model {
     #[sea_orm(column_type = "JsonBinary")]
     pub data: Json,
     pub deleted_at: DateTimeWithTimeZone,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_artist_deleteds: HasMany<super::editor_subscribe_artist_deleted::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_label_deleteds: HasMany<super::editor_subscribe_label_deleted::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_series_deleteds: HasMany<super::editor_subscribe_series_deleted::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_deleted_entity")]
-    pub editor_collections: HasMany<super::editor_collection::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "application")]
 pub struct Model {
@@ -17,16 +16,10 @@ pub struct Model {
     pub oauth_secret: String,
     #[sea_orm(column_type = "Text", nullable)]
     pub oauth_redirect_uri: Option<String>,
-    #[sea_orm(
-        belongs_to,
-        from = "owner",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor: HasOne<super::editor::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_oauth_tokens: HasMany<super::editor_oauth_token::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

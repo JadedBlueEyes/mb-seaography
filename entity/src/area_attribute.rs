@@ -2,62 +2,20 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "area_attribute")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "area",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub area: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "area_attribute_type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub area_attribute_type: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "area_attribute_type_allowed_value",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub area_attribute_type_allowed_value: Option<i32>,
     #[sea_orm(column_type = "Text", nullable)]
     pub area_attribute_text: Option<String>,
-    #[sea_orm(
-        belongs_to,
-        from = "area",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub area: HasOne<super::area::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "area_attribute_type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub area_attribute_type: HasOne<super::area_attribute_type::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "area_attribute_type_allowed_value",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub area_attribute_type_allowed_value: HasOne<super::area_attribute_type_allowed_value::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

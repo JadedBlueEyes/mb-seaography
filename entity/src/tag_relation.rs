@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "tag_relation")]
 pub struct Model {
@@ -12,24 +11,10 @@ pub struct Model {
     pub tag2: i32,
     pub weight: i32,
     pub last_updated: Option<DateTimeWithTimeZone>,
-    #[sea_orm(
-        belongs_to,
-        relation_enum = "Tag2",
-        from = "tag1",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub tag_2: HasOne<super::tag::Entity>,
-    #[sea_orm(
-        belongs_to,
-        relation_enum = "Tag1",
-        from = "tag2",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub tag_1: HasOne<super::tag::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

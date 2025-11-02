@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "mood")]
 pub struct Model {
@@ -14,38 +13,10 @@ pub struct Model {
     pub comment: String,
     pub edits_pending: i32,
     pub last_updated: Option<DateTimeWithTimeZone>,
-    #[sea_orm(has_many)]
-    pub l_area_moods: HasMany<super::l_area_mood::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_moods: HasMany<super::l_artist_mood::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_moods: HasMany<super::l_event_mood::Entity>,
-    #[sea_orm(has_many)]
-    pub l_genre_moods: HasMany<super::l_genre_mood::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_moods: HasMany<super::l_instrument_mood::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_moods: HasMany<super::l_label_mood::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_places: HasMany<super::l_mood_place::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_recordings: HasMany<super::l_mood_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_releases: HasMany<super::l_mood_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_release_groups: HasMany<super::l_mood_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_series: HasMany<super::l_mood_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_urls: HasMany<super::l_mood_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_works: HasMany<super::l_mood_work::Entity>,
-    #[sea_orm(has_many)]
-    pub mood_aliases: HasMany<super::mood_alias::Entity>,
-    #[sea_orm(has_many, via = "mood_annotation")]
-    pub annotations: HasMany<super::annotation::Entity>,
-    #[sea_orm(has_many, via = "edit_mood")]
-    pub edits: HasMany<super::edit::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

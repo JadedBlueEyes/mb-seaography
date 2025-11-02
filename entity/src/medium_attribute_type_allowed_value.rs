@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(
     schema_name = "musicbrainz",
@@ -11,13 +10,6 @@ use sea_orm::entity::prelude::*;
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "medium_attribute_type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub medium_attribute_type: i32,
     #[sea_orm(column_type = "Text", nullable)]
     pub value: Option<String>,
@@ -27,27 +19,10 @@ pub struct Model {
     pub description: Option<String>,
     #[sea_orm(unique)]
     pub gid: Uuid,
-    #[sea_orm(has_many)]
-    pub medium_attributes: HasMany<super::medium_attribute::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "medium_attribute_type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub medium_attribute_type: HasOne<super::medium_attribute_type::Entity>,
-    #[sea_orm(
-        self_ref,
-        relation_enum = "SelfRef",
-        from = "parent",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub medium_attribute_type_allowed_value: HasOne<Entity>,
-    #[sea_orm(has_many, via = "medium_attribute_type_allowed_value_allowed_format")]
-    pub medium_formats: HasMany<super::medium_format::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

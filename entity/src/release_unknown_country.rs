@@ -2,31 +2,18 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "release_unknown_country")]
 pub struct Model {
-    #[sea_orm(
-        belongs_to,
-        from = "release",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub release: i32,
     pub date_year: Option<i16>,
     pub date_month: Option<i16>,
     pub date_day: Option<i16>,
-    #[sea_orm(
-        belongs_to,
-        from = "release",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub release: HasOne<super::release::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

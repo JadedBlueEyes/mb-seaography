@@ -2,40 +2,19 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "link_attribute_text_value")]
 pub struct Model {
-    #[sea_orm(
-        belongs_to,
-        from = "link",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub link: i32,
     #[sea_orm(primary_key, auto_increment = false)]
     pub attribute_type: i32,
     #[sea_orm(column_type = "Text")]
     pub text_value: String,
-    #[sea_orm(
-        belongs_to,
-        from = "link",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub link: HasOne<super::link::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "attribute_type",
-        to = "attribute_type",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub link_text_attribute_type: HasOne<super::link_text_attribute_type::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

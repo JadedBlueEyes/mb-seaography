@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "editor_collection")]
 pub struct Model {
@@ -16,44 +15,10 @@ pub struct Model {
     #[sea_orm(column_type = "Text")]
     pub description: String,
     pub r#type: i32,
-    #[sea_orm(has_many)]
-    pub editor_collection_gid_redirects: HasMany<super::editor_collection_gid_redirect::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor_collection_type: HasOne<super::editor_collection_type::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_area")]
-    pub areas: HasMany<super::area::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_artist")]
-    pub artists: HasMany<super::artist::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_deleted_entity")]
-    pub deleted_entities: HasMany<super::deleted_entity::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_collaborator")]
-    pub editors: HasMany<super::editor::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_event")]
-    pub events: HasMany<super::event::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_genre")]
-    pub genres: HasMany<super::genre::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_instrument")]
-    pub instruments: HasMany<super::instrument::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_label")]
-    pub labels: HasMany<super::label::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_place")]
-    pub places: HasMany<super::place::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_recording")]
-    pub recordings: HasMany<super::recording::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_release")]
-    pub releases: HasMany<super::release::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_release_group")]
-    pub release_groups: HasMany<super::release_group::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_series")]
-    pub series: HasMany<super::series::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_work")]
-    pub works: HasMany<super::work::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

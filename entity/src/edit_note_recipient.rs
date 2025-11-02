@@ -2,38 +2,17 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "edit_note_recipient")]
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub recipient: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "edit_note",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub edit_note: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "edit_note",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub edit_note: HasOne<super::edit_note::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "recipient",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor: HasOne<super::editor::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

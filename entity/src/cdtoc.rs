@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "cdtoc")]
 pub struct Model {
@@ -15,8 +14,10 @@ pub struct Model {
     pub leadout_offset: i32,
     pub track_offset: Vec<i32>,
     pub created: Option<DateTimeWithTimeZone>,
-    #[sea_orm(has_many)]
-    pub medium_cdtocs: HasMany<super::medium_cdtoc::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

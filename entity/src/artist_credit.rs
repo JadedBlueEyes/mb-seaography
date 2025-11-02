@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "artist_credit")]
 pub struct Model {
@@ -15,22 +14,10 @@ pub struct Model {
     pub edits_pending: i32,
     #[sea_orm(unique)]
     pub gid: Uuid,
-    #[sea_orm(has_many)]
-    pub alternative_releases: HasMany<super::alternative_release::Entity>,
-    #[sea_orm(has_many)]
-    pub alternative_tracks: HasMany<super::alternative_track::Entity>,
-    #[sea_orm(has_many)]
-    pub artist_credit_gid_redirects: HasMany<super::artist_credit_gid_redirect::Entity>,
-    #[sea_orm(has_many)]
-    pub recordings: HasMany<super::recording::Entity>,
-    #[sea_orm(has_many)]
-    pub releases: HasMany<super::release::Entity>,
-    #[sea_orm(has_many)]
-    pub release_groups: HasMany<super::release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub tracks: HasMany<super::track::Entity>,
-    #[sea_orm(has_many, via = "artist_credit_name")]
-    pub artists: HasMany<super::artist::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

@@ -2,62 +2,18 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "alternative_medium_track")]
 pub struct Model {
-    #[sea_orm(
-        belongs_to,
-        from = "alternative_medium",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub alternative_medium: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "track",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub track: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "alternative_track",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub alternative_track: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "alternative_medium",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub alternative_medium: HasOne<super::alternative_medium::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "alternative_track",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub alternative_track: HasOne<super::alternative_track::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "track",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub track: HasOne<super::track::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

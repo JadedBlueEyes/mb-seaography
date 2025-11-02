@@ -2,48 +2,19 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "label_tag")]
 pub struct Model {
-    #[sea_orm(
-        belongs_to,
-        from = "label",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub label: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "tag",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub tag: i32,
     pub count: i32,
     pub last_updated: Option<DateTimeWithTimeZone>,
-    #[sea_orm(
-        belongs_to,
-        from = "label",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub label: HasOne<super::label::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "tag",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub tag: HasOne<super::tag::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

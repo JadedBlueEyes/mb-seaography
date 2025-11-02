@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "recording")]
 pub struct Model {
@@ -11,77 +10,16 @@ pub struct Model {
     #[sea_orm(unique)]
     pub gid: Uuid,
     pub name: String,
-    #[sea_orm(
-        belongs_to,
-        from = "artist_credit",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub artist_credit: i32,
     pub length: Option<i32>,
     pub comment: String,
     pub edits_pending: i32,
     pub last_updated: Option<DateTimeWithTimeZone>,
     pub video: bool,
-    #[sea_orm(
-        belongs_to,
-        from = "artist_credit",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub artist_credit: HasOne<super::artist_credit::Entity>,
-    #[sea_orm(has_many)]
-    pub isrcs: HasMany<super::isrc::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_recordings: HasMany<super::l_area_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_recordings: HasMany<super::l_artist_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_recordings: HasMany<super::l_event_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_genre_recordings: HasMany<super::l_genre_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_recordings: HasMany<super::l_instrument_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_recordings: HasMany<super::l_label_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_recordings: HasMany<super::l_mood_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_place_recordings: HasMany<super::l_place_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_recording_releases: HasMany<super::l_recording_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_recording_release_groups: HasMany<super::l_recording_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_recording_series: HasMany<super::l_recording_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_recording_urls: HasMany<super::l_recording_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_recording_works: HasMany<super::l_recording_work::Entity>,
-    #[sea_orm(has_many)]
-    pub recording_aliases: HasMany<super::recording_alias::Entity>,
-    #[sea_orm(has_many)]
-    pub recording_attributes: HasMany<super::recording_attribute::Entity>,
-    #[sea_orm(has_many)]
-    pub recording_gid_redirects: HasMany<super::recording_gid_redirect::Entity>,
-    #[sea_orm(has_one)]
-    pub recording_meta: HasOne<super::recording_meta::Entity>,
-    #[sea_orm(has_many)]
-    pub recording_tag_raws: HasMany<super::recording_tag_raw::Entity>,
-    #[sea_orm(has_many)]
-    pub tracks: HasMany<super::track::Entity>,
-    #[sea_orm(has_many, via = "recording_annotation")]
-    pub annotations: HasMany<super::annotation::Entity>,
-    #[sea_orm(has_many, via = "edit_recording")]
-    pub edits: HasMany<super::edit::Entity>,
-    #[sea_orm(has_many, via = "recording_rating_raw")]
-    pub editors: HasMany<super::editor::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_recording")]
-    pub editor_collections: HasMany<super::editor_collection::Entity>,
-    #[sea_orm(has_many, via = "recording_tag")]
-    pub tags: HasMany<super::tag::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

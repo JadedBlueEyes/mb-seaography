@@ -2,20 +2,11 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "medium")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "release",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        unique_key = "medium_uniq"
-    )]
     pub release: i32,
     #[sea_orm(unique_key = "medium_uniq")]
     pub position: i32,
@@ -26,32 +17,10 @@ pub struct Model {
     pub track_count: i32,
     #[sea_orm(unique)]
     pub gid: Uuid,
-    #[sea_orm(has_many)]
-    pub alternative_mediums: HasMany<super::alternative_medium::Entity>,
-    #[sea_orm(has_many)]
-    pub medium_attributes: HasMany<super::medium_attribute::Entity>,
-    #[sea_orm(has_many)]
-    pub medium_cdtocs: HasMany<super::medium_cdtoc::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "format",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub medium_format: HasOne<super::medium_format::Entity>,
-    #[sea_orm(has_many)]
-    pub medium_gid_redirects: HasMany<super::medium_gid_redirect::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "release",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub release: HasOne<super::release::Entity>,
-    #[sea_orm(has_many)]
-    pub tracks: HasMany<super::track::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

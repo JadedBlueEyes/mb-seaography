@@ -2,39 +2,19 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "autoeditor_election_vote")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "autoeditor_election",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub autoeditor_election: i32,
     pub voter: i32,
     pub vote: i32,
     pub vote_time: DateTimeWithTimeZone,
-    #[sea_orm(
-        belongs_to,
-        from = "autoeditor_election",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub autoeditor_election: HasOne<super::autoeditor_election::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "voter",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor: HasOne<super::editor::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

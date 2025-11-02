@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "language")]
 pub struct Model {
@@ -18,16 +17,10 @@ pub struct Model {
     pub frequency: i16,
     #[sea_orm(unique)]
     pub iso_code_3: Option<String>,
-    #[sea_orm(has_many)]
-    pub alternative_releases: HasMany<super::alternative_release::Entity>,
-    #[sea_orm(has_many)]
-    pub edits: HasMany<super::edit::Entity>,
-    #[sea_orm(has_many)]
-    pub releases: HasMany<super::release::Entity>,
-    #[sea_orm(has_many, via = "editor_language")]
-    pub editors: HasMany<super::editor::Entity>,
-    #[sea_orm(has_many, via = "work_language")]
-    pub works: HasMany<super::work::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

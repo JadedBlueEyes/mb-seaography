@@ -2,34 +2,21 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "isrc")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "recording",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        unique_key = "isrc_idx_isrc_recording"
-    )]
     pub recording: i32,
     #[sea_orm(unique_key = "isrc_idx_isrc_recording")]
     pub isrc: String,
     pub source: Option<i16>,
     pub edits_pending: i32,
     pub created: Option<DateTimeWithTimeZone>,
-    #[sea_orm(
-        belongs_to,
-        from = "recording",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub recording: HasOne<super::recording::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "label")]
 pub struct Model {
@@ -20,89 +19,16 @@ pub struct Model {
     pub end_date_day: Option<i16>,
     pub label_code: Option<i32>,
     pub r#type: Option<i32>,
-    #[sea_orm(
-        belongs_to,
-        from = "area",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub area: Option<i32>,
     #[sea_orm(unique_key = "label_idx_uniq_name_comment")]
     pub comment: String,
     pub edits_pending: i32,
     pub last_updated: Option<DateTimeWithTimeZone>,
     pub ended: bool,
-    #[sea_orm(
-        belongs_to,
-        from = "area",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub area: HasOne<super::area::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_labels: HasMany<super::editor_subscribe_label::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_labels: HasMany<super::l_area_label::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_labels: HasMany<super::l_artist_label::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_labels: HasMany<super::l_event_label::Entity>,
-    #[sea_orm(has_many)]
-    pub l_genre_labels: HasMany<super::l_genre_label::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_labels: HasMany<super::l_instrument_label::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_moods: HasMany<super::l_label_mood::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_places: HasMany<super::l_label_place::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_recordings: HasMany<super::l_label_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_releases: HasMany<super::l_label_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_release_groups: HasMany<super::l_label_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_series: HasMany<super::l_label_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_urls: HasMany<super::l_label_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_works: HasMany<super::l_label_work::Entity>,
-    #[sea_orm(has_many)]
-    pub label_aliases: HasMany<super::label_alias::Entity>,
-    #[sea_orm(has_many)]
-    pub label_attributes: HasMany<super::label_attribute::Entity>,
-    #[sea_orm(has_many)]
-    pub label_gid_redirects: HasMany<super::label_gid_redirect::Entity>,
-    #[sea_orm(has_many)]
-    pub label_ipis: HasMany<super::label_ipi::Entity>,
-    #[sea_orm(has_many)]
-    pub label_isnis: HasMany<super::label_isni::Entity>,
-    #[sea_orm(has_one)]
-    pub label_meta: HasOne<super::label_meta::Entity>,
-    #[sea_orm(has_many)]
-    pub label_tag_raws: HasMany<super::label_tag_raw::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub label_type: HasOne<super::label_type::Entity>,
-    #[sea_orm(has_many)]
-    pub release_labels: HasMany<super::release_label::Entity>,
-    #[sea_orm(has_many, via = "label_annotation")]
-    pub annotations: HasMany<super::annotation::Entity>,
-    #[sea_orm(has_many, via = "edit_label")]
-    pub edits: HasMany<super::edit::Entity>,
-    #[sea_orm(has_many, via = "label_rating_raw")]
-    pub editors: HasMany<super::editor::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_label")]
-    pub editor_collections: HasMany<super::editor_collection::Entity>,
-    #[sea_orm(has_many, via = "label_tag")]
-    pub tags: HasMany<super::tag::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

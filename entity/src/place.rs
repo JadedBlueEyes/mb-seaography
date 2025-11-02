@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "place")]
 pub struct Model {
@@ -13,13 +12,6 @@ pub struct Model {
     pub name: String,
     pub r#type: Option<i32>,
     pub address: String,
-    #[sea_orm(
-        belongs_to,
-        from = "area",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub area: Option<i32>,
     #[sea_orm(
         ignore,
@@ -38,68 +30,10 @@ pub struct Model {
     pub end_date_month: Option<i16>,
     pub end_date_day: Option<i16>,
     pub ended: bool,
-    #[sea_orm(
-        belongs_to,
-        from = "area",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub area: HasOne<super::area::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_places: HasMany<super::l_area_place::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_places: HasMany<super::l_artist_place::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_places: HasMany<super::l_event_place::Entity>,
-    #[sea_orm(has_many)]
-    pub l_genre_places: HasMany<super::l_genre_place::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_places: HasMany<super::l_instrument_place::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_places: HasMany<super::l_label_place::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_places: HasMany<super::l_mood_place::Entity>,
-    #[sea_orm(has_many)]
-    pub l_place_recordings: HasMany<super::l_place_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_place_releases: HasMany<super::l_place_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_place_release_groups: HasMany<super::l_place_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_place_series: HasMany<super::l_place_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_place_urls: HasMany<super::l_place_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_place_works: HasMany<super::l_place_work::Entity>,
-    #[sea_orm(has_many)]
-    pub place_aliases: HasMany<super::place_alias::Entity>,
-    #[sea_orm(has_many)]
-    pub place_attributes: HasMany<super::place_attribute::Entity>,
-    #[sea_orm(has_many)]
-    pub place_gid_redirects: HasMany<super::place_gid_redirect::Entity>,
-    #[sea_orm(has_one)]
-    pub place_meta: HasOne<super::place_meta::Entity>,
-    #[sea_orm(has_many)]
-    pub place_tag_raws: HasMany<super::place_tag_raw::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub place_type: HasOne<super::place_type::Entity>,
-    #[sea_orm(has_many, via = "place_annotation")]
-    pub annotations: HasMany<super::annotation::Entity>,
-    #[sea_orm(has_many, via = "edit_place")]
-    pub edits: HasMany<super::edit::Entity>,
-    #[sea_orm(has_many, via = "place_rating_raw")]
-    pub editors: HasMany<super::editor::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_place")]
-    pub editor_collections: HasMany<super::editor_collection::Entity>,
-    #[sea_orm(has_many, via = "place_tag")]
-    pub tags: HasMany<super::tag::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

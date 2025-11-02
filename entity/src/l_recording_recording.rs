@@ -2,20 +2,11 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "l_recording_recording")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "link",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        unique_key = "l_recording_recording_idx_uniq"
-    )]
     pub link: i32,
     #[sea_orm(unique_key = "l_recording_recording_idx_uniq")]
     pub entity0: i32,
@@ -29,32 +20,10 @@ pub struct Model {
     pub entity0_credit: String,
     #[sea_orm(column_type = "Text")]
     pub entity1_credit: String,
-    #[sea_orm(
-        belongs_to,
-        from = "link",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub link: HasOne<super::link::Entity>,
-    #[sea_orm(
-        belongs_to,
-        relation_enum = "Recording2",
-        from = "entity0",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub recording_2: HasOne<super::recording::Entity>,
-    #[sea_orm(
-        belongs_to,
-        relation_enum = "Recording1",
-        from = "entity1",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub recording_1: HasOne<super::recording::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "alternative_release")]
 pub struct Model {
@@ -10,83 +9,17 @@ pub struct Model {
     pub id: i32,
     #[sea_orm(unique)]
     pub gid: Uuid,
-    #[sea_orm(
-        belongs_to,
-        from = "release",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub release: i32,
     pub name: Option<String>,
-    #[sea_orm(
-        belongs_to,
-        from = "artist_credit",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub artist_credit: Option<i32>,
     pub r#type: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "language",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub language: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "script",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub script: i32,
     pub comment: String,
-    #[sea_orm(has_many)]
-    pub alternative_mediums: HasMany<super::alternative_medium::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub alternative_release_type: HasOne<super::alternative_release_type::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "artist_credit",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub artist_credit: HasOne<super::artist_credit::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "language",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub language: HasOne<super::language::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "release",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub release: HasOne<super::release::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "script",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub script: HasOne<super::script::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

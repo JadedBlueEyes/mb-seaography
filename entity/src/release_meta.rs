@@ -3,7 +3,6 @@
 use super::sea_orm_active_enums::CoverArtPresence;
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "release_meta")]
 pub struct Model {
@@ -13,14 +12,10 @@ pub struct Model {
     pub info_url: Option<String>,
     pub amazon_asin: Option<String>,
     pub cover_art_presence: CoverArtPresence,
-    #[sea_orm(
-        belongs_to,
-        from = "id",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "Cascade"
-    )]
-    pub release: HasOne<super::release::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

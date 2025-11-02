@@ -2,20 +2,11 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "area_alias")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "area",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction",
-        unique_key = "area_alias_idx_primary"
-    )]
     pub area: i32,
     pub name: String,
     #[sea_orm(column_type = "Text", nullable, unique_key = "area_alias_idx_primary")]
@@ -32,22 +23,10 @@ pub struct Model {
     pub end_date_day: Option<i16>,
     pub primary_for_locale: bool,
     pub ended: bool,
-    #[sea_orm(
-        belongs_to,
-        from = "area",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub area: HasOne<super::area::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub area_alias_type: HasOne<super::area_alias_type::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

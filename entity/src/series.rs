@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "series")]
 pub struct Model {
@@ -16,66 +15,10 @@ pub struct Model {
     pub ordering_type: i32,
     pub edits_pending: i32,
     pub last_updated: Option<DateTimeWithTimeZone>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_series: HasMany<super::editor_subscribe_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_series: HasMany<super::l_area_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_series: HasMany<super::l_artist_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_series: HasMany<super::l_event_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_genre_series: HasMany<super::l_genre_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_series: HasMany<super::l_instrument_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_series: HasMany<super::l_label_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_series: HasMany<super::l_mood_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_place_series: HasMany<super::l_place_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_recording_series: HasMany<super::l_recording_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_group_series: HasMany<super::l_release_group_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_series: HasMany<super::l_release_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_series_urls: HasMany<super::l_series_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_series_works: HasMany<super::l_series_work::Entity>,
-    #[sea_orm(has_many)]
-    pub series_aliases: HasMany<super::series_alias::Entity>,
-    #[sea_orm(has_many)]
-    pub series_attributes: HasMany<super::series_attribute::Entity>,
-    #[sea_orm(has_many)]
-    pub series_gid_redirects: HasMany<super::series_gid_redirect::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "ordering_type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub series_ordering_type: HasOne<super::series_ordering_type::Entity>,
-    #[sea_orm(has_many)]
-    pub series_tag_raws: HasMany<super::series_tag_raw::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub series_type: HasOne<super::series_type::Entity>,
-    #[sea_orm(has_many, via = "series_annotation")]
-    pub annotations: HasMany<super::annotation::Entity>,
-    #[sea_orm(has_many, via = "edit_series")]
-    pub edits: HasMany<super::edit::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_series")]
-    pub editor_collections: HasMany<super::editor_collection::Entity>,
-    #[sea_orm(has_many, via = "series_tag")]
-    pub tags: HasMany<super::tag::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

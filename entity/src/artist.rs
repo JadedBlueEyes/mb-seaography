@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "artist")]
 pub struct Model {
@@ -21,13 +20,6 @@ pub struct Model {
     pub end_date_day: Option<i16>,
     pub r#type: Option<i32>,
     pub area: Option<i32>,
-    #[sea_orm(
-        belongs_to,
-        from = "gender",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub gender: Option<i32>,
     #[sea_orm(unique_key = "artist_idx_uniq_name_comment")]
     pub comment: String,
@@ -36,103 +28,10 @@ pub struct Model {
     pub ended: bool,
     pub begin_area: Option<i32>,
     pub end_area: Option<i32>,
-    #[sea_orm(
-        belongs_to,
-        relation_enum = "Area3",
-        from = "area",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub area_3: HasOne<super::area::Entity>,
-    #[sea_orm(
-        belongs_to,
-        relation_enum = "Area2",
-        from = "begin_area",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub area_2: HasOne<super::area::Entity>,
-    #[sea_orm(
-        belongs_to,
-        relation_enum = "Area1",
-        from = "end_area",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub area_1: HasOne<super::area::Entity>,
-    #[sea_orm(has_many)]
-    pub artist_aliases: HasMany<super::artist_alias::Entity>,
-    #[sea_orm(has_many)]
-    pub artist_attributes: HasMany<super::artist_attribute::Entity>,
-    #[sea_orm(has_many)]
-    pub artist_gid_redirects: HasMany<super::artist_gid_redirect::Entity>,
-    #[sea_orm(has_many)]
-    pub artist_ipis: HasMany<super::artist_ipi::Entity>,
-    #[sea_orm(has_many)]
-    pub artist_isnis: HasMany<super::artist_isni::Entity>,
-    #[sea_orm(has_one)]
-    pub artist_meta: HasOne<super::artist_meta::Entity>,
-    #[sea_orm(has_many)]
-    pub artist_tag_raws: HasMany<super::artist_tag_raw::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub artist_type: HasOne<super::artist_type::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_artists: HasMany<super::editor_subscribe_artist::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "gender",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub gender: HasOne<super::gender::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_artists: HasMany<super::l_area_artist::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_events: HasMany<super::l_artist_event::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_genres: HasMany<super::l_artist_genre::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_instruments: HasMany<super::l_artist_instrument::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_labels: HasMany<super::l_artist_label::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_moods: HasMany<super::l_artist_mood::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_places: HasMany<super::l_artist_place::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_recordings: HasMany<super::l_artist_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_releases: HasMany<super::l_artist_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_release_groups: HasMany<super::l_artist_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_series: HasMany<super::l_artist_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_urls: HasMany<super::l_artist_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_works: HasMany<super::l_artist_work::Entity>,
-    #[sea_orm(has_many, via = "artist_annotation")]
-    pub annotations: HasMany<super::annotation::Entity>,
-    #[sea_orm(has_many, via = "artist_credit_name")]
-    pub artist_credits: HasMany<super::artist_credit::Entity>,
-    #[sea_orm(has_many, via = "edit_artist")]
-    pub edits: HasMany<super::edit::Entity>,
-    #[sea_orm(has_many, via = "artist_rating_raw")]
-    pub editors: HasMany<super::editor::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_artist")]
-    pub editor_collections: HasMany<super::editor_collection::Entity>,
-    #[sea_orm(has_many, via = "artist_tag")]
-    pub tags: HasMany<super::tag::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

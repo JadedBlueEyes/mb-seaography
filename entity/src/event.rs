@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "event")]
 pub struct Model {
@@ -26,60 +25,10 @@ pub struct Model {
     pub edits_pending: i32,
     pub last_updated: Option<DateTimeWithTimeZone>,
     pub ended: bool,
-    #[sea_orm(has_many)]
-    pub event_aliases: HasMany<super::event_alias::Entity>,
-    #[sea_orm(has_many)]
-    pub event_attributes: HasMany<super::event_attribute::Entity>,
-    #[sea_orm(has_many)]
-    pub event_gid_redirects: HasMany<super::event_gid_redirect::Entity>,
-    #[sea_orm(has_one)]
-    pub event_meta: HasOne<super::event_meta::Entity>,
-    #[sea_orm(has_many)]
-    pub event_tag_raws: HasMany<super::event_tag_raw::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub event_type: HasOne<super::event_type::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_events: HasMany<super::l_area_event::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_events: HasMany<super::l_artist_event::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_genres: HasMany<super::l_event_genre::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_instruments: HasMany<super::l_event_instrument::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_labels: HasMany<super::l_event_label::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_moods: HasMany<super::l_event_mood::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_places: HasMany<super::l_event_place::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_recordings: HasMany<super::l_event_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_releases: HasMany<super::l_event_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_release_groups: HasMany<super::l_event_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_series: HasMany<super::l_event_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_urls: HasMany<super::l_event_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_works: HasMany<super::l_event_work::Entity>,
-    #[sea_orm(has_many, via = "event_annotation")]
-    pub annotations: HasMany<super::annotation::Entity>,
-    #[sea_orm(has_many, via = "edit_event")]
-    pub edits: HasMany<super::edit::Entity>,
-    #[sea_orm(has_many, via = "event_rating_raw")]
-    pub editors: HasMany<super::editor::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_event")]
-    pub editor_collections: HasMany<super::editor_collection::Entity>,
-    #[sea_orm(has_many, via = "event_tag")]
-    pub tags: HasMany<super::tag::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "url")]
 pub struct Model {
@@ -14,36 +13,10 @@ pub struct Model {
     pub url: String,
     pub edits_pending: i32,
     pub last_updated: Option<DateTimeWithTimeZone>,
-    #[sea_orm(has_many)]
-    pub l_area_urls: HasMany<super::l_area_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_artist_urls: HasMany<super::l_artist_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_event_urls: HasMany<super::l_event_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_genre_urls: HasMany<super::l_genre_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_instrument_urls: HasMany<super::l_instrument_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_label_urls: HasMany<super::l_label_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_mood_urls: HasMany<super::l_mood_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_place_urls: HasMany<super::l_place_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_recording_urls: HasMany<super::l_recording_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_group_urls: HasMany<super::l_release_group_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_release_urls: HasMany<super::l_release_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_series_urls: HasMany<super::l_series_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_url_works: HasMany<super::l_url_work::Entity>,
-    #[sea_orm(has_many)]
-    pub url_gid_redirects: HasMany<super::url_gid_redirect::Entity>,
-    #[sea_orm(has_many, via = "edit_url")]
-    pub edits: HasMany<super::edit::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

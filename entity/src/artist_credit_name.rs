@@ -2,49 +2,21 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "artist_credit_name")]
 pub struct Model {
-    #[sea_orm(
-        belongs_to,
-        from = "artist_credit",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "Cascade",
-        primary_key,
-        auto_increment = false
-    )]
+    #[sea_orm(primary_key, auto_increment = false)]
     pub artist_credit: i32,
     #[sea_orm(primary_key, auto_increment = false)]
     pub position: i16,
-    #[sea_orm(
-        belongs_to,
-        from = "artist",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "Cascade"
-    )]
     pub artist: i32,
     pub name: String,
     #[sea_orm(column_type = "Text")]
     pub join_phrase: String,
-    #[sea_orm(
-        belongs_to,
-        from = "artist",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "Cascade"
-    )]
-    pub artist: HasOne<super::artist::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "artist_credit",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "Cascade"
-    )]
-    pub artist_credit: HasOne<super::artist_credit::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

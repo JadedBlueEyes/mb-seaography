@@ -2,63 +2,20 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "instrument_attribute")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "instrument",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub instrument: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "instrument_attribute_type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub instrument_attribute_type: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "instrument_attribute_type_allowed_value",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub instrument_attribute_type_allowed_value: Option<i32>,
     #[sea_orm(column_type = "Text", nullable)]
     pub instrument_attribute_text: Option<String>,
-    #[sea_orm(
-        belongs_to,
-        from = "instrument",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub instrument: HasOne<super::instrument::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "instrument_attribute_type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub instrument_attribute_type: HasOne<super::instrument_attribute_type::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "instrument_attribute_type_allowed_value",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub instrument_attribute_type_allowed_value:
-        HasOne<super::instrument_attribute_type_allowed_value::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

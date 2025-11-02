@@ -3,27 +3,12 @@
 use super::sea_orm_active_enums::OauthCodeChallengeMethod;
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "editor_oauth_token")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "editor",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub editor: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "application",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub application: i32,
     #[sea_orm(column_type = "Text", nullable)]
     pub authorization_code: Option<String>,
@@ -37,22 +22,10 @@ pub struct Model {
     #[sea_orm(column_type = "Text", nullable)]
     pub code_challenge: Option<String>,
     pub code_challenge_method: Option<OauthCodeChallengeMethod>,
-    #[sea_orm(
-        belongs_to,
-        from = "application",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub application: HasOne<super::application::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "editor",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor: HasOne<super::editor::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

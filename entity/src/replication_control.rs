@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "replication_control")]
 pub struct Model {
@@ -12,5 +11,9 @@ pub struct Model {
     pub current_replication_sequence: Option<i32>,
     pub last_replication_date: Option<DateTimeWithTimeZone>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

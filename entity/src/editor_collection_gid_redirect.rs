@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(
     schema_name = "musicbrainz",
@@ -13,14 +12,10 @@ pub struct Model {
     pub gid: Uuid,
     pub new_id: i32,
     pub created: Option<DateTimeWithTimeZone>,
-    #[sea_orm(
-        belongs_to,
-        from = "new_id",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor_collection: HasOne<super::editor_collection::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

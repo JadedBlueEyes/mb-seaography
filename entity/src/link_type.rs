@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "link_type")]
 pub struct Model {
@@ -25,21 +24,10 @@ pub struct Model {
     pub has_dates: bool,
     pub entity0_cardinality: i16,
     pub entity1_cardinality: i16,
-    #[sea_orm(has_many)]
-    pub links: HasMany<super::link::Entity>,
-    #[sea_orm(
-        self_ref,
-        relation_enum = "SelfRef",
-        from = "parent",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub link_type: HasOne<Entity>,
-    #[sea_orm(has_one)]
-    pub orderable_link_type: HasOne<super::orderable_link_type::Entity>,
-    #[sea_orm(has_many, via = "link_type_attribute_type")]
-    pub link_attribute_types: HasMany<super::link_attribute_type::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

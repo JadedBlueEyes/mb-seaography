@@ -2,47 +2,18 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "alternative_medium")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "medium",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub medium: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "alternative_release",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub alternative_release: i32,
     pub name: Option<String>,
-    #[sea_orm(has_many)]
-    pub alternative_medium_tracks: HasMany<super::alternative_medium_track::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "alternative_release",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub alternative_release: HasOne<super::alternative_release::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "medium",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub medium: HasOne<super::medium::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

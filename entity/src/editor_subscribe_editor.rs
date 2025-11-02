@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "editor_subscribe_editor")]
 pub struct Model {
@@ -13,24 +12,10 @@ pub struct Model {
     #[sea_orm(unique_key = "editor_subscribe_editor_idx_uniq")]
     pub subscribed_editor: i32,
     pub last_edit_sent: i32,
-    #[sea_orm(
-        belongs_to,
-        relation_enum = "Editor2",
-        from = "editor",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor_2: HasOne<super::editor::Entity>,
-    #[sea_orm(
-        belongs_to,
-        relation_enum = "Editor1",
-        from = "subscribed_editor",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor_1: HasOne<super::editor::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

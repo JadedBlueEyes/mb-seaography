@@ -3,7 +3,6 @@
 use super::sea_orm_active_enums::EventArtPresence;
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "event_meta")]
 pub struct Model {
@@ -12,14 +11,10 @@ pub struct Model {
     pub rating: Option<i16>,
     pub rating_count: Option<i32>,
     pub event_art_presence: EventArtPresence,
-    #[sea_orm(
-        belongs_to,
-        from = "id",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "Cascade"
-    )]
-    pub event: HasOne<super::event::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

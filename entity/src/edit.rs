@@ -2,19 +2,11 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "edit")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    #[sea_orm(
-        belongs_to,
-        from = "editor",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub editor: i32,
     pub r#type: i16,
     pub status: i16,
@@ -22,77 +14,12 @@ pub struct Model {
     pub open_time: Option<DateTimeWithTimeZone>,
     pub close_time: Option<DateTimeWithTimeZone>,
     pub expire_time: DateTimeWithTimeZone,
-    #[sea_orm(
-        belongs_to,
-        from = "language",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     pub language: Option<i32>,
     pub quality: i16,
-    #[sea_orm(has_one)]
-    pub edit_data: HasOne<super::edit_data::Entity>,
-    #[sea_orm(has_many)]
-    pub edit_notes: HasMany<super::edit_note::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "editor",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub editor: HasOne<super::editor::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_artists: HasMany<super::editor_subscribe_artist::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_artist_deleteds: HasMany<super::editor_subscribe_artist_deleted::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_labels: HasMany<super::editor_subscribe_label::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_label_deleteds: HasMany<super::editor_subscribe_label_deleted::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_series: HasMany<super::editor_subscribe_series::Entity>,
-    #[sea_orm(has_many)]
-    pub editor_subscribe_series_deleteds: HasMany<super::editor_subscribe_series_deleted::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "language",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub language: HasOne<super::language::Entity>,
-    #[sea_orm(has_many)]
-    pub votes: HasMany<super::vote::Entity>,
-    #[sea_orm(has_many, via = "edit_area")]
-    pub areas: HasMany<super::area::Entity>,
-    #[sea_orm(has_many, via = "edit_artist")]
-    pub artists: HasMany<super::artist::Entity>,
-    #[sea_orm(has_many, via = "edit_event")]
-    pub events: HasMany<super::event::Entity>,
-    #[sea_orm(has_many, via = "edit_genre")]
-    pub genres: HasMany<super::genre::Entity>,
-    #[sea_orm(has_many, via = "edit_instrument")]
-    pub instruments: HasMany<super::instrument::Entity>,
-    #[sea_orm(has_many, via = "edit_label")]
-    pub labels: HasMany<super::label::Entity>,
-    #[sea_orm(has_many, via = "edit_mood")]
-    pub moods: HasMany<super::mood::Entity>,
-    #[sea_orm(has_many, via = "edit_place")]
-    pub places: HasMany<super::place::Entity>,
-    #[sea_orm(has_many, via = "edit_recording")]
-    pub recordings: HasMany<super::recording::Entity>,
-    #[sea_orm(has_many, via = "edit_release")]
-    pub releases: HasMany<super::release::Entity>,
-    #[sea_orm(has_many, via = "edit_release_group")]
-    pub release_groups: HasMany<super::release_group::Entity>,
-    #[sea_orm(has_many, via = "edit_series")]
-    pub series: HasMany<super::series::Entity>,
-    #[sea_orm(has_many, via = "edit_url")]
-    pub urls: HasMany<super::url::Entity>,
-    #[sea_orm(has_many, via = "edit_work")]
-    pub works: HasMany<super::work::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

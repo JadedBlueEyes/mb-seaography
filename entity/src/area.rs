@@ -2,7 +2,6 @@
 
 use sea_orm::entity::prelude::*;
 
-#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(schema_name = "musicbrainz", table_name = "area")]
 pub struct Model {
@@ -22,70 +21,10 @@ pub struct Model {
     pub end_date_day: Option<i16>,
     pub ended: bool,
     pub comment: String,
-    #[sea_orm(has_many)]
-    pub area_aliases: HasMany<super::area_alias::Entity>,
-    #[sea_orm(has_many)]
-    pub area_attributes: HasMany<super::area_attribute::Entity>,
-    #[sea_orm(has_many)]
-    pub area_gid_redirects: HasMany<super::area_gid_redirect::Entity>,
-    #[sea_orm(has_many)]
-    pub area_tag_raws: HasMany<super::area_tag_raw::Entity>,
-    #[sea_orm(
-        belongs_to,
-        from = "type",
-        to = "id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
-    pub area_type: HasOne<super::area_type::Entity>,
-    #[sea_orm(has_one)]
-    pub country_area: HasOne<super::country_area::Entity>,
-    #[sea_orm(has_many)]
-    pub editors: HasMany<super::editor::Entity>,
-    #[sea_orm(has_many)]
-    pub iso_3166_1s: HasMany<super::iso_3166_1::Entity>,
-    #[sea_orm(has_many)]
-    pub iso_3166_2s: HasMany<super::iso_3166_2::Entity>,
-    #[sea_orm(has_many)]
-    pub iso_3166_3s: HasMany<super::iso_3166_3::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_artists: HasMany<super::l_area_artist::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_events: HasMany<super::l_area_event::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_genres: HasMany<super::l_area_genre::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_instruments: HasMany<super::l_area_instrument::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_labels: HasMany<super::l_area_label::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_moods: HasMany<super::l_area_mood::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_places: HasMany<super::l_area_place::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_recordings: HasMany<super::l_area_recording::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_releases: HasMany<super::l_area_release::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_release_groups: HasMany<super::l_area_release_group::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_series: HasMany<super::l_area_series::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_urls: HasMany<super::l_area_url::Entity>,
-    #[sea_orm(has_many)]
-    pub l_area_works: HasMany<super::l_area_work::Entity>,
-    #[sea_orm(has_many)]
-    pub labels: HasMany<super::label::Entity>,
-    #[sea_orm(has_many)]
-    pub places: HasMany<super::place::Entity>,
-    #[sea_orm(has_many, via = "area_annotation")]
-    pub annotations: HasMany<super::annotation::Entity>,
-    #[sea_orm(has_many, via = "edit_area")]
-    pub edits: HasMany<super::edit::Entity>,
-    #[sea_orm(has_many, via = "editor_collection_area")]
-    pub editor_collections: HasMany<super::editor_collection::Entity>,
-    #[sea_orm(has_many, via = "area_tag")]
-    pub tags: HasMany<super::tag::Entity>,
 }
+
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}
