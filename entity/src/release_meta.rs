@@ -3,8 +3,9 @@
 use super::sea_orm_active_enums::CoverArtPresence;
 use sea_orm::entity::prelude::*;
 
+#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "musicbrainz", table_name = "release_meta")]
+#[sea_orm(table_name = "release_meta")]
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub id: i32,
@@ -14,8 +15,5 @@ pub struct Model {
     pub cover_art_presence: CoverArtPresence,
 }
 
-
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
-pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

@@ -2,9 +2,9 @@
 
 use sea_orm::entity::prelude::*;
 
+#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(
-    schema_name = "musicbrainz",
     table_name = "medium_attribute_type_allowed_format"
 )]
 pub struct Model {
@@ -14,8 +14,5 @@ pub struct Model {
     pub medium_attribute_type: i32,
 }
 
-
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
-pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

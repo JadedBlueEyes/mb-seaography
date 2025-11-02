@@ -3,8 +3,9 @@
 use super::sea_orm_active_enums::Fluency;
 use sea_orm::entity::prelude::*;
 
+#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "musicbrainz", table_name = "editor_language")]
+#[sea_orm(table_name = "editor_language")]
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub editor: i32,
@@ -13,8 +14,5 @@ pub struct Model {
     pub fluency: Fluency,
 }
 
-
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
-pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

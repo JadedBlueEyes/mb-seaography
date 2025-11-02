@@ -2,8 +2,9 @@
 
 use sea_orm::entity::prelude::*;
 
+#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "musicbrainz", table_name = "event_tag_raw")]
+#[sea_orm(table_name = "event_tag_raw")]
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub event: i32,
@@ -14,8 +15,5 @@ pub struct Model {
     pub is_upvote: bool,
 }
 
-
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
-pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

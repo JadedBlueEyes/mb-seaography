@@ -2,16 +2,14 @@
 
 use sea_orm::entity::prelude::*;
 
+#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "musicbrainz", table_name = "iso_3166_2")]
+#[sea_orm(table_name = "iso_3166_2")]
 pub struct Model {
     pub area: i32,
     #[sea_orm(primary_key, auto_increment = false)]
     pub code: String,
 }
 
-
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
-pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

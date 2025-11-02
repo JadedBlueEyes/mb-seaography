@@ -369,7 +369,7 @@ pub mod work_tag;
 pub mod work_tag_raw;
 pub mod work_type;
 
-/*seaography::register_entity_modules!([
+seaography::register_entity_modules!([
     alternative_medium,
     alternative_medium_track,
     alternative_release,
@@ -403,8 +403,8 @@ pub mod work_type;
     artist_isni,
     artist_meta,
     artist_rating_raw,
-    artist_release_group_pending_update,
-    artist_release_pending_update,
+    // artist_release_group_pending_update,
+    // artist_release_pending_update,
     artist_tag,
     artist_tag_raw,
     artist_type,
@@ -639,7 +639,7 @@ pub mod work_type;
     mood_alias,
     mood_alias_type,
     mood_annotation,
-    old_editor_name,
+    // old_editor_name,
     orderable_link_type,
     place,
     place_alias,
@@ -735,11 +735,12 @@ pub mod work_type;
     work_tag,
     work_tag_raw,
     work_type,
-]);*/
-/*seaography::register_active_enums!([
+]);
+
+seaography::register_active_enums!([
     sea_orm_active_enums::CoverArtPresence,
     sea_orm_active_enums::EditNoteStatus,
     sea_orm_active_enums::EventArtPresence,
     sea_orm_active_enums::Fluency,
     sea_orm_active_enums::OauthCodeChallengeMethod,
-]);*/
+]);
